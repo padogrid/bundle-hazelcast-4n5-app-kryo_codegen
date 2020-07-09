@@ -49,6 +49,13 @@ In summary, the code generators can not only save development time but can play 
 
 ## Runng This Bundle
 
+If you want to quickly test the bundle, you can execute the following and jump to [Step 9](#9-configure-hazelcast-configuration-file-hazelcastxml-with-the-kryoserializer-class). The `build_app` carries out the setp 1 to 8 in sequential order. It is, however, recommended that you go through the entire steps to get familiar with the code generation and deployment process.
+
+```bash
+cd_app kryo_codegen; cd bin_sh
+./build_app
+```
+
 ### 1. Place Avro schema files in the `src/main/resources` directory.
 
 This bundle includes the following example schema files.
@@ -242,7 +249,6 @@ src/main
     └── order.avsc
 ```
 
-
 ### 6. Compile the generated `KryoSerailaizer`.
 
 Once again, repackage the `lib/app-kryo-codegen-hazelcast-4-1.0.0.jar` file by runnging Maven. This time, the jar file also includes the generated classes including `KryoSerializer` which we need to register with Hazelcast.
@@ -251,7 +257,19 @@ Once again, repackage the `lib/app-kryo-codegen-hazelcast-4-1.0.0.jar` file by r
 mvn package
 ```
 
-### 7. Deploy the jar file which now contains all the generated classes.
+### 7. Build client apps.
+
+This bundle includes data ingestion clients that use the generated wrapper classes to ingest data into Hazelcast. The source code is located in the `src_provided` directory. Let's copy it to the `src` directory and rebuild the jar file.
+
+```bash
+# Copy client code
+cp -r src_provided/* src/
+
+# Rebuild
+mvn package
+```
+
+### 8. Deploy the jar file which now contains all the generated classes.
 
 The  `lib/app-kryo-codegen-hazelcast-4-1.0.0.jar` is now ready to be deployed to the Hazelcast cluster. Since we are using Avro, we also need to deploy its jar files along with all the dependent files in the `lib` directory. Let's deploy the entire jar files in the `lib` directory to the current workspace's `plugins` directory so that it gets included in any clusters and apps that run in the current workspace.
 
@@ -259,7 +277,7 @@ The  `lib/app-kryo-codegen-hazelcast-4-1.0.0.jar` is now ready to be deployed to
 cp lib/* $PADOGRID_WORKSPACE/plugins/
 ```
 
-### 8. Configure Hazelcast configuration file (`hazelcast.xml`) with the `KryoSerializer` class.
+### 9. Configure Hazelcast configuration file (`hazelcast.xml`) with the `KryoSerializer` class.
 
 Place the serialization information in the current cluster's Hazelcast configuration file.
 
@@ -277,22 +295,10 @@ Copy the serializer configuration output from Step 5 and enter it in the `hazelc
         </serializers>
 ```
 
-### 9. Start your cluster.
+### 10. Start your cluster.
 
 ```bash
 start_cluster
-```
-
-### 10. Ingest data.
-
-This bundle includes data ingestion clients that use the generated wrapper classes to ingest data into Hazelcast. The source code is located in the `src_provided` directory. Let's copy it to the `src` directory and rebuild the jar file.
-
-```bash
-# Copy client code
-cp -r src_provided/* src/
-
-# Rebuild
-mvn package
 ```
 
 ### 11. Ingest data.
