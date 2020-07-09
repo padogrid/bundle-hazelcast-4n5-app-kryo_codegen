@@ -1,0 +1,1 @@
+# bundle-hazelcast-4-app-kryo_codegen
