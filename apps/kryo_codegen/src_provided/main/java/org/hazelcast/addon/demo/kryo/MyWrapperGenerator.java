@@ -17,8 +17,9 @@ public class MyWrapperGenerator {
 		String tp = " org.hazelcast.demo.nw.data.avro";
 		String dir = "src/main/java";
 		String jar = "lib/app-kryo-codegen-hazelcast-4-1.0.0.jar";
+		boolean overwrite = false;
 		
-		WrapperGenerator generator = new WrapperGenerator(sp, tp, jar, dir);
+		WrapperGenerator generator = new WrapperGenerator(sp, tp, jar, dir, overwrite);
 		generator.generateWrappers();
 	}
 }
