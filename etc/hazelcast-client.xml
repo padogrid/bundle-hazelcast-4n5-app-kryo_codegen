@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hazelcast-client
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.hazelcast.com/schema/client-config
+                               http://www.hazelcast.com/schema/client-config/hazelcast-client-config-4.0.xsd"
+	xmlns="http://www.hazelcast.com/schema/client-config">
+
+	<cluster-name>dev</cluster-name>
+	<network>
+		<cluster-members>
+			<address>localhost:5701</address>
+			<address>localhost:5702</address>
+		</cluster-members>
+	</network>
+	<serialization>
+		<serializers>
+			<global-serializer override-java-serialization="true">org.hazelcast.demo.nw.data.avro.KryoSerializer</global-serializer>
+		</serializers>
+	</serialization>
+</hazelcast-client>

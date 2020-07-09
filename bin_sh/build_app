@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+
+# ========================================================================
+# Copyright (c) 2020 Netcrest Technologies, LLC. All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ========================================================================
+
+SCRIPT_DIR="$(cd -P -- "$(dirname -- "$0")" && pwd -P)"
+. $SCRIPT_DIR/.addonenv.sh
+
+EXECUTABLE="`basename $0`"
+REPO_NAME=hazelcast-desktop
+
+if [ "$HELP" == "true" ]; then
+cat <<EOF
+Usage:
+   ./$EXECUTABLE [-clean] [-?]
+
+   Builds the kryo_codegen environment by executing Maven and deploying files to the
+   current workspace's plugins directory.
+      $PADOGRID_WORKSPACE/plugins
+
+Default: ./$EXECUTABLE
+
+EOF
+fi
+
+pushd $APP_DIR > /dev/null
+mvn package
+t_generate_wrappers -sp org.hazelcast.demo.nw.data.avro.generated \
+   -tp org.hazelcast.demo.nw.data.avro \
+   -dir src/main/java \
+   -jar lib/app-kryo-codegen-hazelcast-4-1.0.0.jar \
+   -classpath lib
+mvn package
+t_generate_kryo_serializer -id 1200 \
+   -package org.hazelcast.demo.nw.data.avro \
+   -dir src/main/java \
+   -jar lib/app-kryo-codegen-hazelcast-4-1.0.0.jar \
+   -classpath lib
+mvn package
+cp lib/* $PADOGRID_WORKSPACE/plugins/
+popd > /dev/null
+
+#
+# Display build information
+#
+cat <<EOF
+
+Workspace: $PADOGRID_WORKSPACE
+
+Avro classes, wrappter classes, and KryoSerializer generated and deployed to the workspace's
+plugins directory.
+
+   $PADOGRID_WORKSPACE/lib
+
+CLASSPATH includes the above directory for all apps and clusters running under this workspace.
+Make sure to register the generated KryoSerializer by placing the the following lines in both 
+member and client configuration files.
+
+        <serializers>
+             <global-serializer override-java-serialization="true">
+                 org.hazelcast.demo.nw.data.avro.KryoSerializer
+             </global-serializer>
+        </serializers>
+
+EOF
