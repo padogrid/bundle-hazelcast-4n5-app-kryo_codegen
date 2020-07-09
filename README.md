@@ -10,21 +10,22 @@ install_bundle -download bundle-hazelcast-4-app-kryo_codegen
 
 ## Use Case
 
-Kryo allows you to ingest POJO objects to Hazelcast without addding any Hazelcast dependencies. In this bundle, we introduce PadoGrid's code generator that generates `KryoSerializer` required by Hazelcast for registering custom serializers. To register POJO classes in Hazelcast, you must register each POJO class individually, making the Hazelcast configuration process difficult and error prone. PadoGrid's Kryo code generator simplifies the registration process by generating the `KryoSerializer` class that automatically groups all the POJO classes in a package. Instead of registering each POJO class individually, you would just register `KryoSerializer`. 
+Kryo allows you to ingest POJO objects to Hazelcast without addding any Hazelcast dependencies. In this bundle, we introduce PadoGrid's code generator that generates `KryoSerializer` required by Hazelcast for registering custom serializers. To register POJO classes in Hazelcast, you must register each POJO class individually, making the Hazelcast configuration process difficult and error prone. PadoGrid's Kryo code generator simplifies the registration process by generating the `KryoSerializer` class that automatically groups all the POJO classes in a given package. Instead of registering each POJO class individually, you would just register `KryoSerializer`. 
 
-The Kryo code generator also includes a wrapper class generator which extends POJO classes to allow you to override class methods as needed. This is particularly useful if you generate domain classes using IDL-based serialization tools such as Avro. Avro creates a compact binary data format and is ideal for storing POJO objects in Hazelcast. Avro, however, only supports primitive types and therefore storing POJO objects with non-primitive types would require additional custom marshalling performed by the application. The wrapper generator generates wrapper classes in which you can add your custom marshalling code without affecting the Avro-generated code.
+The Kryo code generator also includes a wrapper class generator which extends POJO classes to allow you to override class methods as needed. This is particularly useful if you generate domain classes using IDL-based serialization tools such as Avro. Avro creates a compact binary data format and is ideal for storing POJO objects in Hazelcast. Avro, however, only supports primitive types and leaves non-primitive type marshalling to the application. To close this gap, the wrapper class generator generates wrapper classes in which you can add your custom marshalling code without affecting the Avro-generated code.
 
 For example, Avro does not support the `Date` class. To store a `Date` object, you would need to store its `long` value, i.e., `Date.getTime()` as the `long` type and the `logicalType` of `timestamp-millis` as follows.
 
 ```json
+{
  "fields": [
-...
-     {"name": "orderDateLong", "type": "long", "logicalType": "timestamp-millis"},
-...
+
+     {"name": "orderDateLong", "type": "long", "logicalType": "timestamp-millis"}
+
  }
 ```
 
-Avro will store the `long` value only. To get the `Date` object back, the application must explcitly create a `Date` object, i.e., `new Date(long)`. With the wrapper class, this can be done by simply introucing a method that returns the `Date` object. For example,
+Avro will store the `long` value only. To get the `Date` object back, the application must explicitly create a `Date` object, i.e., `new Date(long)`. With the wrapper class, this can be done by simply introducing a method that returns the `Date` object. For example,
 
 ```java
 public class Order extends org.hazelcast.demo.nw.data.avro.generated.__Order {
@@ -43,11 +44,13 @@ public class Order extends org.hazelcast.demo.nw.data.avro.generated.__Order {
 }
 ```
 
-What all this means is that you can potentially automate the CI/CD process of ingesting new datasets in Hazelcast by simply generating and deploying code.
+In summary, the code generators can not only save development time but can play a vital role in automating the CI/CD process in which new datasets from various data sources need to be ingested frequently into Hazelcast.
 
 ## Runng This Bundle
 
-### 1. Place Avro schema files in the `src/main/resources` directory. This bundle includes the following example schema files.
+### 1. Place Avro schema files in the `src/main/resources` directory.
+
+This bundle includes the following example schema files.
 
 ```bash
 cd_app kryo_codegen
@@ -66,9 +69,9 @@ src/main
     └── order.avsc
 ```
 
-Note that we do not have any Java code in the source directory. All we have is a set of Avro schema files, which we'll use to generate all the necessary Java code for ingesting data into Hazelcast. As an example, the `customer.asvc` schema file content is shown below.
+Note that we do not have any Java code in the source directory. We start with a set of only Avro schema files and end with all the necessary Java code for ingesting data into Hazelcast. The following shows the `customer.asvc` schema file contents.
 
-**`customer.asvc` content:**
+**`customer.asvc`:**
 
 ```json
 {
@@ -126,7 +129,7 @@ src/main
 
 ### 3. Generate Avro wrapper classes. 
 
-Run the `t_generate_wrappers` PadoGrid command to generate the wrapper classes that extend the generated Avro classes. You can use the Avro classes as they are in Hazelcast. It is recommended, however, that you use the wrapper classes to override the Avro methods as needed. Avro supports only primitive types and the wrapper classes allow you to introduce non-primitives such as Date and other object types. This bundle uses the wrapper classes.
+Run the PadoGrid's `t_generate_wrappers` command to generate the wrapper classes that extend the generated Avro classes. You can use the Avro classes as they are in Hazelcast but it is recommended that you use the wrapper classes to override the Avro methods as needed. Avro supports only primitive types and the wrapper classes allow you handle non-primitives such as Date and other object types. This bundle uses the wrapper classes.
 
 ```bash
 t_generate_wrappers -sp org.hazelcast.demo.nw.data.avro.generated \
@@ -136,7 +139,7 @@ t_generate_wrappers -sp org.hazelcast.demo.nw.data.avro.generated \
    -classpath lib
 ```
 
-The above command creates the wrapper classes as in the `org.hazelcast.demo.nw.data.avro` package as follows.
+The above command creates the wrapper classes in the `org.hazelcast.demo.nw.data.avro` package as follows.
 
 ```console
 src/main
@@ -165,7 +168,7 @@ src/main
 
 ### 4. Compile the wrapper classes and create a jar file.
 
-The generated wrapper classes need to be compiled and packaged into a jar file. Run Maven again to generate the `lib/app-kryo-codegen-hazelcast-4-1.0.0.jar` jar file that includes the wrapper classes.
+The generated wrapper classes need to be compiled and packaged into a jar file. Run Maven again to generate the `lib/app-kryo-codegen-hazelcast-4-1.0.0.jar` file that includes the wrapper classes.
 
 ```bash
 mvn package
@@ -185,7 +188,7 @@ t_generate_kryo_serializer -id 1200 \
 
 **Output:**
 
-The above command outputs the following (Note the serialization configuration information. We'll be entering that information in the Hazelcast configuration file in the next step):
+The above command outputs the following (Note the registration information. We'll be entering the ouputted serializer settings in the Hazelcast configuration file later.)
 
 ```console
   New class count: 4
@@ -198,7 +201,7 @@ KryoSerializer generated:
    C:\Users\dpark\Work\git\padogrid-bundles\hazelcast-bundles\bundle-hazelcast-4-app-kryo_codegen\src\main\java\org\hazel
 cast\demo\nw\data\avro\KryoSerializer.java
 
-To use KryoSerializer, add the following in the Hazelcast configuration file.
+To register KryoSerializer, add the following lines in the Hazelcast configuration file.
     <serialization>
         <serializers>
              <global-serializer override-java-serialization="true">
@@ -241,7 +244,7 @@ src/main
 
 ### 6. Compile the generated `KryoSerailaizer`.
 
-Once again, repackage the `lib/app-kryo-codegen-hazelcast-4-1.0.0.jar` file by runnging Maven. This time the jar file includes all the generated classes including `KryoSerializer` which we need to register with Hazelcast.
+Once again, repackage the `lib/app-kryo-codegen-hazelcast-4-1.0.0.jar` file by runnging Maven. This time, the jar file also includes the generated classes including `KryoSerializer` which we need to register with Hazelcast.
 
 ```bash
 mvn package
@@ -263,8 +266,7 @@ Place the serialization information in the current cluster's Hazelcast configura
 vi $CLUSTER_DIR/etc/hazelcast.xml
 ```
 
-Copy the output from Step 5 and enter it in the `hazelcast.xml` file as follows.
-
+Copy the serializer configuration output from Step 5 and enter it in the `hazelcast.xml` file as follows.  
 
 ```xml
         <serializers>
@@ -313,7 +315,7 @@ cd bin_sh
 Data Class: org.hazelcast.demo.nw.data.avro.Customer
   Ingested: 100
        Map: nw/customers
-``
+```
 
 **`ingest_orders` Output:**
 
@@ -321,7 +323,7 @@ Data Class: org.hazelcast.demo.nw.data.avro.Customer
 Data Class: org.hazelcast.demo.nw.data.avro.Order
   Ingested: 100
        Map: nw/orders
-``
+```
 
 ### 12. Read ingested data.
 
@@ -332,9 +334,9 @@ You can use the `read_cache` script to read the ingested data as follows. We hav
 ./read_cache nw/orders
 ```
 
-## Executing Code Generator Programatically
+## Executing Code Generator Programmatically 
 
-You can also execute the code generators programatically. The included source code for `MyWrapperGenerator` and `MyKryoGenerator` are shown below. They are located in the `src_provided/main/java` directory.
+You can also execute the code generators programmatically. The source code of `MyWrapperGenerator` and `MyKryoGenerator` is located in the `src_provided/main/java` directory and shown below.
 
 ###  WapperGenerator
 
