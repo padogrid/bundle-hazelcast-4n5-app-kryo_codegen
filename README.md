@@ -22,7 +22,8 @@ For example, Avro does not support the `Date` class. To store a `Date` object, y
 
      {"name": "orderDateLong", "type": "long", "logicalType": "timestamp-millis"}
 
- }
+ ]
+}
 ```
 
 Avro will store the `long` value only. To get the `Date` object back, the application must explicitly create a `Date` object, i.e., `new Date(long)`. With the wrapper class, this can be done by simply introducing a method that returns the `Date` object. For example,
