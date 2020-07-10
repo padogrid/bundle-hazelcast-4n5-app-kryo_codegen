@@ -47,6 +47,8 @@ public class Order extends org.hazelcast.demo.nw.data.avro.generated.__Order {
 
 In summary, the code generators can not only save development time but can play a vital role in automating the CI/CD process in which new datasets from various data sources need to be ingested frequently into Hazelcast.
 
+![Kryo Code Generator Demo](/images/app-kryo-codegen.jpg)
+
 ## Runng This Bundle
 
 If you want to quickly test the bundle, you can execute the following and jump to [Step 9](#9-configure-hazelcast-configuration-file-hazelcastxml-with-the-kryoserializer-class). The `build_app` carries out the setp 1 to 8 in sequential order. It is, however, recommended that you go through the entire steps to get familiar with the code generation and deployment process.
