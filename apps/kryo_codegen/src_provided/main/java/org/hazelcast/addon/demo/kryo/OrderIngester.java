@@ -25,15 +25,15 @@ public class OrderIngester {
 		order.setCustomerId(faker.idNumber().invalidSvSeSsn());
 		order.setEmployeeId(faker.idNumber().invalidSvSeSsn());
 		order.setFreight(200 * random.nextDouble());
-		order.setOrderDate(faker.date().past(7, TimeUnit.DAYS));
+		order.setOrderDateObj(faker.date().past(7, TimeUnit.DAYS));
 		order.setOrderId(faker.idNumber().invalidSvSeSsn());
-		order.setRequiredDate(faker.date().future(20, TimeUnit.DAYS));
+		order.setRequiredDateObj(faker.date().future(20, TimeUnit.DAYS));
 		Address address = faker.address();
 		order.setShipAddress(address.fullAddress());
 		order.setShipCity(address.city());
 		order.setShipCountry(address.country());
 		order.setShipName(company.name());
-		order.setShippedDate(faker.date().past(4, TimeUnit.DAYS));
+		order.setShippedDateObj(faker.date().past(4, TimeUnit.DAYS));
 		order.setShipPostalCode(address.zipCode());
 		order.setShipRegion(address.stateAbbr());
 		order.setShipVia(Integer.toString(random.nextInt(5) + 1));
