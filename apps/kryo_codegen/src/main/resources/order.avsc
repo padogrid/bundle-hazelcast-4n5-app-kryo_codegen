@@ -6,16 +6,16 @@
      {"name": "orderId", "type": "string"},
      {"name": "customerId", "type": "string"},
      {"name": "employeeId", "type": "string"},
-     {"name": "orderDateLong", "type": "long", "logicalType": "timestamp-millis"},
-     {"name": "requiredDateLong", "type": "long", "logicalType": "timestamp-millis"},
-     {"name": "shippedDateLong", "type": "long", "logicalType": "timestamp-millis"},
-     {"name": "shipVia", "type": "string"},
      {"name": "freight", "type": "double"},
-     {"name": "shipName", "type": "string"},
+     {"name": "orderDate", "type": "long", "logicalType": "timestamp-millis"},
+     {"name": "requiredDate", "type": "long", "logicalType": "timestamp-millis"},
      {"name": "shipAddress", "type": "string"},
      {"name": "shipCity", "type": "string"},
-     {"name": "shipRegion", "type": ["string", "null"]},
+     {"name": "shipCountry", "type": "string"},
+     {"name": "shipName", "type": "string"},
      {"name": "shipPostalCode", "type": "string"},
-     {"name": "shipCountry", "type": "string"}
+     {"name": "shipRegion", "type": ["string", "null"]},
+     {"name": "shipVia", "type": "string"},
+     {"name": "shippedDate", "type": "long", "logicalType": "timestamp-millis"}
  ]
 }

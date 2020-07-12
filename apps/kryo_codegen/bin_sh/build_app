@@ -36,6 +36,15 @@ Default: ./$EXECUTABLE
 EOF
 fi
 
+# Install hazelcast-addon-common to local Maven repo
+mvn install:install-file \
+   -Dfile=$PADOGRID_HOME/hazelcast/lib/hazelcast-addon-common-${PADOGRID_VERSION}.jar \
+   -DgroupId=padogrid.addon \
+   -DartifactId=hazelcast-addon-common \
+   -Dversion=${PADOGRID_VERSION} \
+   -Dpackaging=jar \
+   -DgeneratePom=true
+
 pushd $APP_DIR > /dev/null
 mvn package
 t_generate_wrappers -sp org.hazelcast.demo.nw.data.avro.generated \
