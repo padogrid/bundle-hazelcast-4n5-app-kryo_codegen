@@ -6,24 +6,15 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.hazelcast.addon</groupId>
 	<version>1.0.0</version>
-	<artifactId>app-kryo-codegen-hazelcast-4</artifactId>
+	<artifactId>app-kryo-codegen-hazelcast-4-dist</artifactId>
 	<packaging>jar</packaging>
 	<name>${project.artifactId}</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<padogrid.version>0.9.2-SNAPSHOT</padogrid.version>
-		<hazelcast.version>4.0</hazelcast.version>
 		<avro.version>1.9.2</avro.version>
 	</properties>
-
-	<repositories>
-		<!-- Hazelcast private repo -->
-		<repository>
-			<id>Hazelcast Private Snapshot Repository</id>
-			<url>https://repository.hazelcast.com/snapshot/</url>
-		</repository>
-	</repositories>
 
 	<dependencies>
 		<!--  PadoGrid for KryoGenerator -->
@@ -32,50 +23,16 @@
 			<artifactId>hazelcast-addon-common</artifactId>
 			<version>${padogrid.version}</version>
 		</dependency>
-		<!-- Hazelcast -->
-		<dependency>
-			<groupId>com.hazelcast</groupId>
-			<artifactId>hazelcast-all</artifactId>
-			<version>${hazelcast.version}</version>
-		</dependency>
-
-		<!-- Avro -->
-		<dependency>
-			<groupId>org.apache.avro</groupId>
-			<artifactId>avro</artifactId>
-			<version>${avro.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.avro</groupId>
-			<artifactId>avro-tools</artifactId>
-			<version>${avro.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.avro</groupId>
-			<artifactId>avro-compiler</artifactId>
-			<version>${avro.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>com.esotericsoftware</groupId>
 			<artifactId>kryo</artifactId>
 			<version>4.0.0</version>
 		</dependency>
-		
-		<!-- For ingesting fake data -->
 		<dependency>
-			<groupId>com.github.javafaker</groupId>
-			<artifactId>javafaker</artifactId>
-			<version>0.17.2</version>
+			<groupId>org.apache.avro</groupId>
+			<artifactId>avro</artifactId>
+			<version>${avro.version}</version>
 		</dependency>
-		
-		<!-- https://mvnrepository.com/artifact/org.json/json -->
-<dependency>
-    <groupId>org.json</groupId>
-    <artifactId>json</artifactId>
-    <version>20200518</version>
-</dependency>
-		
-
 	</dependencies>
 
 	<build>
@@ -109,7 +66,7 @@
 									<version>${project.version}</version>
 									<type>jar</type>
 									<overWrite>true</overWrite>
-									<outputDirectory>${project.basedir}/lib</outputDirectory>
+									<outputDirectory>${project.basedir}/lib-dist</outputDirectory>
 								</artifactItem>
 							</artifactItems>
 							<outputDirectory>${project.build.directory}/wars</outputDirectory>
@@ -124,29 +81,33 @@
 							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>lib</outputDirectory>
+							<outputDirectory>lib-dist</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
-			<!-- Avro class generator -->
-			<plugin>
-				<groupId>org.apache.avro</groupId>
-				<artifactId>avro-maven-plugin</artifactId>
-				<version>${avro.version}</version>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>schema</goal>
-						</goals>
-						<configuration>
-							<testSourceDirectory>${project.basedir}/src/main/resources/</testSourceDirectory>
-							<testOutputDirectory> ${project.basedir}/src/main/java</testOutputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+                        <plugin>
+                                <artifactId>maven-assembly-plugin</artifactId>
+                                <version>2.5.5</version>
+                                <executions>
+                                        <execution>
+                                                <id>padogrid-dist</id>
+                                                <goals>
+                                                        <goal>attached</goal>
+                                                </goals>
+                                                <phase>package</phase>
+                                                <configuration>
+                                                        <descriptors>
+                                                                <descriptor>assembly-descriptor.xml</descriptor>
+                                                        </descriptors>
+                                                        <finalName>${project.name}-${project.version}</finalName>
+                                                        <appendAssemblyId>false</appendAssemblyId>
+                                                        <outputDirectory>target/assembly</outputDirectory>
+                                                        <tarLongFileMode>gnu</tarLongFileMode>
+                                                </configuration>
+                                        </execution>
+                                </executions>
+                        </plugin>
 		</plugins>
 	</build>
 </project>
