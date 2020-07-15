@@ -86,29 +86,6 @@
 					</execution>
 				</executions>
 			</plugin>
-                        <!-- bundle distribution -->
-                        <plugin>
-                                <artifactId>maven-assembly-plugin</artifactId>
-                                <version>2.5.5</version>
-                                <executions>
-                                        <execution>
-                                                <id>PadoGrid Bundle</id>
-                                                <goals>
-                                                        <goal>attached</goal>
-                                                </goals>
-                                                <phase>package</phase>
-                                                <configuration>
-                                                        <descriptors>
-                                                                <descriptor>assembly-descriptor.xml</descriptor>
-                                                        </descriptors>
-                                                        <finalName>${project.name}</finalName>
-                                                        <appendAssemblyId>false</appendAssemblyId>
-                                                        <outputDirectory>target/assembly</outputDirectory>
-                                                        <tarLongFileMode>gnu</tarLongFileMode>
-                                                </configuration>
-                                        </execution>
-                                </executions>
-                        </plugin> 
                         <plugin>
                                 <artifactId>maven-assembly-plugin</artifactId>
                                 <version>2.5.5</version>
