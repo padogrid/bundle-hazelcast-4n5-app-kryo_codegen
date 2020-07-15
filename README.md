@@ -283,7 +283,7 @@ mv package -f pom-dist.xml
 tar -C $PADOGRID_WORKSPACE/plugins/ -xzf target/assembly/app-kryo-codegen-hazelcast-4-dist.tar.gz
 ```
 
-:exclamation: You can deploy the tarball to external apps. For example, to deploy it to Kafka Connect, untar it in the connector's plugin directory.
+:information_source: You can deploy the tarball to external apps. For example, to deploy it to Kafka Connect, untar it in the connector's plugin directory.
 
 ### 9. Configure Hazelcast configuration file (`hazelcast.xml`) with the `KryoSerializer` class.
 
