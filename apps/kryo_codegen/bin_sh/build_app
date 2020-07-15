@@ -59,11 +59,11 @@ t_generate_kryo_serializer -id 1200 \
    -jar lib/app-kryo-codegen-hazelcast-4-1.0.0.jar \
    -classpath lib
 mvn package
-# Build a distribution tarball that contains jar dependencies.
-mvn package -f pom-dist.xml
 cp -r src_provided/* src/
 mvn package
-cp lib/* $PADOGRID_WORKSPACE/plugins/
+# Build a distribution tarball that contains jar dependencies.
+mvn package -f pom-dist.xml
+cp lib-dist/* $PADOGRID_WORKSPACE/plugins/
 popd > /dev/null
 
 #
