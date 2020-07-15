@@ -123,7 +123,7 @@
                                                         <descriptors>
                                                                 <descriptor>assembly-descriptor.xml</descriptor>
                                                         </descriptors>
-                                                        <finalName>${project.name}</finalName>
+                                                        <finalName>${project.name}-${project.version}</finalName>
                                                         <appendAssemblyId>false</appendAssemblyId>
                                                         <outputDirectory>target/assembly</outputDirectory>
                                                         <tarLongFileMode>gnu</tarLongFileMode>

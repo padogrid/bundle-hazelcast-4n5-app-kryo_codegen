@@ -80,7 +80,7 @@ plugins directory.
 
 A K8S distribution tarball has been created as follows. This distribution contains the Kryo dependencies and the generated AVRO jar file that must be included in your client app's class path. For example, to use the generated AVRO classes in Kafka Connect, you can untar it in the connector plugin directory.
 
-   $APP_DIR/target/assembly/app-kryo-codegen-hazelcast-4-dist.tar.gz
+   $APP_DIR/target/assembly/app-kryo-codegen-hazelcast-4-dist-1.0.0.tar.gz
 
 CLASSPATH includes the above directory for all apps and clusters running under this workspace.
 Make sure to register the generated KryoSerializer by placing the the following lines in both 

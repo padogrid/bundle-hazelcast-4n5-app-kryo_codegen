@@ -276,11 +276,11 @@ mvn package
 The  `lib/app-kryo-codegen-hazelcast-4-1.0.0.jar` is now ready to be deployed to the Hazelcast cluster. Since we are using Kryo and Avro, we also need to deploy their jar files along with all the dependencies. We accomplish this by running `mvn package -f pom-dist.xml` to generate a tarball that includes all the dependencies including the generated AVRO and wrapper classes. We then untar the tarball in the workspace's `plugins` directory so that the jar files can be picked up by all the apps and clusters running in the same workspace.
 
 ```bash
-# Generate target/assembly/app-kryo-codegen-hazelcast-4-dist.tar.gz
+# Generate target/assembly/app-kryo-codegen-hazelcast-4-dist-1.0.0.tar.gz
 mv package -f pom-dist.xml
 
 # Deploy the generated tarball in the workspace plugins directory.
-tar -C $PADOGRID_WORKSPACE/plugins/ -xzf target/assembly/app-kryo-codegen-hazelcast-4-dist.tar.gz
+tar -C $PADOGRID_WORKSPACE/plugins/ -xzf target/assembly/app-kryo-codegen-hazelcast-4-dist-1.0.0.tar.gz
 ```
 
 :information_source: You can deploy the tarball to external apps. For example, to deploy it to Kafka Connect, untar it in the connector's plugin directory.
