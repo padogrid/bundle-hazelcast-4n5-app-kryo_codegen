@@ -41,4 +41,8 @@ public class Order extends org.hazelcast.demo.nw.data.avro.generated.__Order {
 	public Date getRequiredDateObj() {
 		return new Date(super.getRequiredDate());
 	}
+	
+	public String toString() {
+		return super.toString() + ": getOrderDateObj()=" + getOrderDateObj() + ", getShippedDateObj()=" + getShippedDateObj() + "getRequiredDateObj()=" + getRequiredDateObj();
+	}
 }
