@@ -6,13 +6,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.hazelcast.addon</groupId>
 	<version>1.0.0</version>
-	<artifactId>app-kryo-codegen-hazelcast-4-k8s</artifactId>
+	<artifactId>app-kryo-codegen-hazelcast-4-dist</artifactId>
 	<packaging>jar</packaging>
 	<name>${project.artifactId}</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<padogrid.version>0.9.2-SNAPSHOT</padogrid.version>
+		<avro.version>1.9.2</avro.version>
 	</properties>
 
 	<dependencies>
@@ -26,6 +27,11 @@
 			<groupId>com.esotericsoftware</groupId>
 			<artifactId>kryo</artifactId>
 			<version>4.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.avro</groupId>
+			<artifactId>avro</artifactId>
+			<version>${avro.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -60,7 +66,7 @@
 									<version>${project.version}</version>
 									<type>jar</type>
 									<overWrite>true</overWrite>
-									<outputDirectory>${project.basedir}/lib2</outputDirectory>
+									<outputDirectory>${project.basedir}/lib-dist</outputDirectory>
 								</artifactItem>
 							</artifactItems>
 							<outputDirectory>${project.build.directory}/wars</outputDirectory>
@@ -75,7 +81,7 @@
 							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>lib2</outputDirectory>
+							<outputDirectory>lib-dist</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
@@ -108,7 +114,7 @@
                                 <version>2.5.5</version>
                                 <executions>
                                         <execution>
-                                                <id>padogrid-k8s</id>
+                                                <id>padogrid-dist</id>
                                                 <goals>
                                                         <goal>attached</goal>
                                                 </goals>
