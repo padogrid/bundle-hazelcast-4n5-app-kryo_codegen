@@ -17,6 +17,14 @@
                                 <include>**</include>
                         </includes>
                 </fileSet>
+                <fileSet>
+                        <directory>lib</directory>
+                        <outputDirectory>./</outputDirectory>
+                        <includes>
+                                <include>app-kryo-codegen-hazelcast-4*</include>
+                                <include>json-*</include>
+                        </includes>
+                </fileSet>
         </fileSets>
 </assembly>
 
