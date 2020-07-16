@@ -1,29 +1,32 @@
 <assembly xmlns="http://maven.apache.org/ASSEMBLY/2.0.0"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
 
-        <id>padogrid-dist-assembly</id>
-        <formats>
-                <format>tar.gz</format>
-        </formats>
-        <includeBaseDirectory>false</includeBaseDirectory>
-        <baseDirectory>${project.name}</baseDirectory>
+	<id>bundle-assembly</id>
+	<formats>
+		<format>tar.gz</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<baseDirectory>${project.name}</baseDirectory>
 
-        <fileSets>
-                <fileSet>
-                        <directory>lib-dist</directory>
-                        <outputDirectory>./</outputDirectory>
-                        <includes>
-                                <include>**</include>
-                        </includes>
-                </fileSet>
-                <fileSet>
-                        <directory>lib</directory>
-                        <outputDirectory>./</outputDirectory>
-                        <includes>
-                                <include>app-kryo-codegen-hazelcast-4*</include>
-                        </includes>
-                </fileSet>
-        </fileSets>
+	<fileSets>
+		<fileSet>
+			<directory>apps</directory>
+			<outputDirectory>apps</outputDirectory>
+			<includes>
+				<include>**</include>
+			</includes>
+		</fileSet>
+		
+		<!-- Executable permissions -->
+		<fileSet>
+			<directory>apps/kryo_codegen/bin_sh</directory>
+			<outputDirectory>apps/kryo_codegen/bin_sh</outputDirectory>
+			<includes>
+				<include>**</include>
+			</includes>
+			<fileMode>0755</fileMode>
+			<directoryMode>0755</directoryMode>
+		</fileSet>
+	</fileSets>
 </assembly>
-
