@@ -70,6 +70,7 @@ This bundle includes the following example schema files.
 
 ```bash
 cd_app kryo_codegen
+mkdir -p src/main/resources
 cp etc/avro/* src/main/resources/
 tree src/main
 ```
@@ -78,7 +79,6 @@ tree src/main
 
 ```console
 src/main
-├── java
 └── resources
     ├── category.avsc
     ├── customer.avsc
