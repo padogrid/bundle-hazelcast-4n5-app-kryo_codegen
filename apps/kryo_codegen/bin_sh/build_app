@@ -71,8 +71,8 @@ mvn install:install-file \
 pushd $APP_DIR > /dev/null
 
 # Clean up the source directory
-rm -r src/main/java/* > /dev/null 2>&1
-rm -r src/main/resources/* > /dev/null 2>&1
+rm -r src > /dev/null 2>&1
+mkdir -p src/main/resources
 
 if [ "$REGISTRY" == "true" ]; then
    # Generate AVRO schema files
