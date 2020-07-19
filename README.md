@@ -58,12 +58,19 @@ cd_app kryo_codegen; cd bin_sh
 ./build_app
 ```
 
+If you have a schema registry with Debezium running, then you can use the `-registry` option to retrieve the schemas instead. Please see the usage by runnging the following.
+
+```bash
+./build_app -?
+```
+
 ### 1. Place Avro schema files in the `src/main/resources` directory.
 
 This bundle includes the following example schema files.
 
 ```bash
 cd_app kryo_codegen
+cp etc/avro/* src/main/resources/
 tree src/main
 ```
 
