@@ -1,0 +1,45 @@
+{
+	"registry": "http://localhost:8080",
+	"package": "org.hazelcast.demo.nw.data.avro.generated",
+	"artifacts": [ 
+		{
+		"id": "dbserver1.public.customers-value",
+		 "name": "__Customer",
+		 "fieldMap": 
+		 	{ 
+		 		"customerid" : "customerId",
+		 		"address" : "address",
+		 		"city" : "city",
+		 		"companyname" : "companyName",
+		 		"contactname" : "contactName",
+		 		"contacttitle" : "contactTitle",
+		 		"country" : "country",
+		 		"fax" : "fax",
+		 		"phone" : "phone",
+		 		"postalcode" : "postalCode",
+		 		"region" : "region"
+		 	}
+		},
+		{
+		"id": "dbserver1.public.orders-value",
+		 "name": "__Order",
+		 "fieldMap": 
+		 	{ 
+		 		"orderid" : "orderId",
+		 		"customerid" : "customerId",
+		 		"employeeid" : "employeeId",
+		 		"freight" : "freight",
+		 		"orderdate" : "orderDate",
+		 		"requireddate" : "requiredDate",
+		 		"shipaddress" : "shipAddress",
+		 		"shipcity" : "shipCity",
+		 		"shipcountry" : "shipCountry",
+		 		"shipname" : "shipName",
+		 		"shippostalcode" : "shipPostalCode",
+		 		"shipregion" : "shipRegion",
+		 		"shipvia" : "shipVia",
+		 		"shippeddate" : "shippedDate"
+		 	}
+		}
+	]
+}

@@ -24,16 +24,39 @@ REPO_NAME=hazelcast-desktop
 
 if [ "$HELP" == "true" ]; then
 cat <<EOF
-Usage:
-   ./$EXECUTABLE [-clean] [-?]
+NAME
+    $EXECUTABLE - Build the kryo_codegen environment
 
+SYNOPSIS
+   ./$EXECUTABLE [-registry [url]] [-?]
+
+DESCRIPTION
    Builds the kryo_codegen environment by executing Maven and deploying files to the
    current workspace's plugins directory.
-      $PADOGRID_WORKSPACE/plugins
 
-Default: ./$EXECUTABLE
+   $PADOGRID_WORKSPACE/plugins
+
+OPTIONS
+   -registry [url]
+             If specified, then generates the Avro schema files by retrieving schemas from the
+             schema registry URL. If URL is not specified then it defaults to "http://localhost:8080".
+             If this option is not specified, then the Avro schema files in the 'etc/avro' directory are used.
+
+DEFAULT
+   ./$EXECUTABLE
 
 EOF
+exit
+fi
+
+if [ "$1" == "-registry" ]; then
+   REGISTRY="true"
+   REGISTRY_URL="$2"
+   if [ "REGISTRY_URL" == "" ]; then
+      REGISTRY_URL="http://localhost:8080"
+   fi
+else
+   REGISTRY="false"
 fi
 
 # Install hazelcast-addon-common to local Maven repo
@@ -46,24 +69,44 @@ mvn install:install-file \
    -DgeneratePom=true
 
 pushd $APP_DIR > /dev/null
-mvn package
+
+# Clean up the source directory
+rm -r src/main/java/* > /dev/null 2>&1
+rm -r src/main/resources/* > /dev/null 2>&1
+
+if [ "$REGISTRY" == "true" ]; then
+   # Generate AVRO schema files
+   t_generate_avro_schemas -registry $REGISTRY_URL \
+      -artifacts etc/artifacts.json \
+      -dir src/main/resources
+else
+   cp etc/avro/* src/main/resources/
+fi
+mvn package 
+
+# Generate wrapper classes
 t_generate_wrappers -sp org.hazelcast.demo.nw.data.avro.generated \
    -tp org.hazelcast.demo.nw.data.avro \
    -dir src/main/java \
    -jar lib/app-kryo-codegen-hazelcast-4-1.0.0.jar \
    -classpath lib
 mvn package
+
+# Generate KryoSerializer
 t_generate_kryo_serializer -id 1200 \
    -package org.hazelcast.demo.nw.data.avro \
    -dir src/main/java \
    -jar lib/app-kryo-codegen-hazelcast-4-1.0.0.jar \
    -classpath lib
 mvn package
+
+# Overwrite the generated wrappers with custom wrappers
 cp -r src_provided/* src/
 mvn package
-# Build a distribution tarball that contains jar dependencies.
-mvn package -f pom-dist.xml
-tar -C $PADOGRID_WORKSPACE/plugins/ -xzf target/assembly/app-kryo-codegen-hazelcast-4-dist-1.0.0.tar.gz
+
+# Place the generated binaary and dependencies in the workspace's plugins directory
+cp lib/* $PADOGRID_WORKSPACE/plugins/
+
 popd > /dev/null
 
 #
@@ -77,10 +120,6 @@ Avro classes, wrappter classes, and KryoSerializer generated and deployed to the
 plugins directory.
 
    $PADOGRID_WORKSPACE/lib
-
-A K8S distribution tarball has been created as follows. This distribution contains the Kryo dependencies and the generated AVRO jar file that must be included in your client app's class path. For example, to use the generated AVRO classes in Kafka Connect, you can untar it in the connector plugin directory.
-
-   $APP_DIR/target/assembly/app-kryo-codegen-hazelcast-4-dist-1.0.0.tar.gz
 
 CLASSPATH includes the above directory for all apps and clusters running under this workspace.
 Make sure to register the generated KryoSerializer by placing the the following lines in both 
