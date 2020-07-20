@@ -14,32 +14,62 @@ import java.util.Date;
  *      "https://github.com/padogrid/padogrid">https://github.com/padogrid/padogrid</a>
  */
 public class Order extends org.hazelcast.demo.nw.data.avro.generated.__Order {
+	
+	private static int TIME_MICRO = 1000;
+	
 	public Order() {
 		super();
 	}
 
 	public void setOrderDateObj(Date date) {
-		super.setOrderDate(date.getTime());
+		if (date == null) {
+			super.setOrderDate(null);
+		} else {
+			super.setOrderDate(date.getTime());
+		}
 	}
 
 	public Date getOrderDateObj() {
-		return new Date(super.getOrderDate());
+		Long dateLong = super.getOrderDate();
+		if (dateLong == null) {
+			return null;
+		} else {
+			return new Date(dateLong/TIME_MICRO);
+		}
 	}
 
 	public void setShippedDateObj(Date date) {
-		super.setShippedDate(date.getTime());
+		if (date == null) {
+			super.setShippedDate(null);
+		} else {
+			super.setShippedDate(date.getTime());
+		}
 	}
 
 	public Date getShippedDateObj() {
-		return new Date(super.getShippedDate());
+		Long dateLong = super.getShippedDate();
+		if (dateLong == null) {
+			return null;
+		} else {
+			return new Date(dateLong/TIME_MICRO);
+		}
 	}
 
 	public void setRequiredDateObj(Date date) {
-		super.setRequiredDate(date.getTime());
+		if (date == null) {
+			super.setRequiredDate(null);
+		} else {
+			super.setRequiredDate(date.getTime());
+		}
 	}
 
 	public Date getRequiredDateObj() {
-		return new Date(super.getRequiredDate());
+		Long dateLong = super.getRequiredDate();
+		if (dateLong == null) {
+			return null;
+		} else {
+			return new Date(dateLong/TIME_MICRO);
+		}
 	}
 	
 	public String toString() {
