@@ -365,7 +365,7 @@ You can also execute the code generators programmatically. The source code of `M
 ```java
 package org.hazelcast.addon.demo.kryo;
 
-import org.hazelcast.addon.tools.WrapperGenerator;
+import com.netcrest.padogrid.tools.WrapperGenerator;
 
 /**
  * This class shows you how to run WrapperGenerator programmatically.
@@ -394,7 +394,7 @@ public class MyWrapperGenerator {
 ```java
 package org.hazelcast.addon.demo.kryo;
 
-import org.hazelcast.addon.tools.KryoGenerator;
+import com.netcrest.padogrid.tools.KryoGenerator;
 
 /**
  * This class shows you how to run KryGenerator programmatically.

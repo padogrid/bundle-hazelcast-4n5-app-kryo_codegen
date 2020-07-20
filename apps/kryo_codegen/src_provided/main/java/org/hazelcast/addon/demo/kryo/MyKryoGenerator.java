@@ -1,6 +1,6 @@
 package org.hazelcast.addon.demo.kryo;
 
-import org.hazelcast.addon.tools.KryoGenerator;
+import com.netcrest.padogrid.tools.KryoGenerator;
 
 /**
  * This class shows you how to run KryGenerator programmatically.

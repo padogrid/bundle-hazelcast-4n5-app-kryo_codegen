@@ -1,6 +1,6 @@
 package org.hazelcast.addon.demo.kryo;
 
-import org.hazelcast.addon.tools.WrapperGenerator;
+import com.netcrest.padogrid.tools.WrapperGenerator;
 
 /**
  * This class shows you how to run WrapperGenerator programmatically.
