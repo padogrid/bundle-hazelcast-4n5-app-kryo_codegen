@@ -27,11 +27,11 @@
 
 	<dependencies>
 		<!-- PadoGrid for KryoGenerator -->
-		<dependency>
-			<groupId>padogrid.addon</groupId>
-			<artifactId>hazelcast-addon-common</artifactId>
-			<version>${padogrid.version}</version>
-		</dependency>
+                <dependency>
+                        <groupId>padogrid.addon</groupId>
+                        <artifactId>padogrid-tools</artifactId>
+                        <version>${padogrid.version}</version>
+                </dependency>
 		<!-- Hazelcast -->
 		<dependency>
 			<groupId>com.hazelcast</groupId>

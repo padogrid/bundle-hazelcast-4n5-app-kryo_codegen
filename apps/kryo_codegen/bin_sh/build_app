@@ -59,11 +59,11 @@ else
    REGISTRY="false"
 fi
 
-# Install hazelcast-addon-common to local Maven repo
+# Install padogrid-tools to the local Maven repo
 mvn install:install-file \
-   -Dfile=$PADOGRID_HOME/hazelcast/lib/hazelcast-addon-common-${PADOGRID_VERSION}.jar \
+   -Dfile=$PADOGRID_HOME/lib/padogrid-tools-${PADOGRID_VERSION}.jar \
    -DgroupId=padogrid.addon \
-   -DartifactId=hazelcast-addon-common \
+   -DartifactId=padogrid-tools \
    -Dversion=${PADOGRID_VERSION} \
    -Dpackaging=jar \
    -DgeneratePom=true
