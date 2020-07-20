@@ -15,6 +15,9 @@ import java.util.Date;
  */
 public class Order extends org.hazelcast.demo.nw.data.avro.generated.__Order {
 	
+	/**
+	 * Debezium sets miscrosecond values.
+	 */
 	private static int TIME_MICRO = 1000;
 	
 	public Order() {
