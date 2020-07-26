@@ -12,7 +12,7 @@
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<padogrid.version>0.9.2-SNAPSHOT</padogrid.version>
+		<padogrid.version>0.9.2</padogrid.version>
 		<hazelcast.version>4.0</hazelcast.version>
 		<avro.version>1.9.2</avro.version>
 	</properties>
