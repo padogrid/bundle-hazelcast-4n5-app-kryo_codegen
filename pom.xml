@@ -60,7 +60,7 @@
 				<version>2.5.5</version>
 				<executions>
 					<execution>
-						<id>Hazelcast 3.12</id>
+						<id>padogrid-bundle</id>
 						<goals>
 							<goal>attached</goal>
 						</goals>

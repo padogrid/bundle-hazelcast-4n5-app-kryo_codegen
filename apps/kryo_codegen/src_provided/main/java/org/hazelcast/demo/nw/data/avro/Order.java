@@ -26,7 +26,7 @@ public class Order extends org.hazelcast.demo.nw.data.avro.generated.__Order {
 
 	public void setOrderDateObj(Date date) {
 		if (date == null) {
-			super.setOrderDate(null);
+			super.setOrderDate(0L);
 		} else {
 			super.setOrderDate(date.getTime());
 		}
@@ -43,7 +43,7 @@ public class Order extends org.hazelcast.demo.nw.data.avro.generated.__Order {
 
 	public void setShippedDateObj(Date date) {
 		if (date == null) {
-			super.setShippedDate(null);
+			super.setShippedDate(0L);
 		} else {
 			super.setShippedDate(date.getTime());
 		}
@@ -60,7 +60,7 @@ public class Order extends org.hazelcast.demo.nw.data.avro.generated.__Order {
 
 	public void setRequiredDateObj(Date date) {
 		if (date == null) {
-			super.setRequiredDate(null);
+			super.setRequiredDate(0L);
 		} else {
 			super.setRequiredDate(date.getTime());
 		}
