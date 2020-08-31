@@ -303,11 +303,17 @@ vi $CLUSTER_DIR/etc/hazelcast.xml
 Copy the serializer configuration output from Step 5 and enter it in the `hazelcast.xml` file as follows.  
 
 ```xml
-        <serializers>
-             <global-serializer override-java-serialization="true">
-                 org.hazelcast.demo.nw.data.avro.KryoSerializer
-             </global-serializer>
-        </serializers>
+<hazelcast>
+...
+       <serialization>
+             <serializers>
+                  <global-serializer override-java-serialization="true">
+                  org.hazelcast.demo.nw.data.avro.KryoSerializer
+                  </global-serializer>
+             </serializers>
+        </serialization>
+...
+</hazelcast>
 ```
 
 ### 10. Start your cluster.
