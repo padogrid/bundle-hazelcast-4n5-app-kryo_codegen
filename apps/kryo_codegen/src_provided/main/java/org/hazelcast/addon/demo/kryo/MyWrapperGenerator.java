@@ -19,7 +19,7 @@ public class MyWrapperGenerator {
 		String jar = "lib/app-kryo-codegen-hazelcast-4-1.0.0.jar";
 		boolean overwrite = false;
 		
-		WrapperGenerator generator = new WrapperGenerator(sp, tp, jar, dir, overwrite);
+		WrapperGenerator generator = new WrapperGenerator(sp, tp, jar, dir, WrapperGenerator.WrapperType.simple, overwrite);
 		generator.generateWrappers();
 	}
 }

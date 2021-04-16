@@ -1,9 +1,9 @@
 package org.hazelcast.addon.demo.kryo;
 
-import com.netcrest.padogrid.tools.KryoGenerator;
+import com.netcrest.padogrid.tools.HazelcastKryoGenerator;
 
 /**
- * This class shows you how to run KryGenerator programmatically.
+ * This class shows you how to run HazelcastKryoGenerator programmatically.
  * 
  * @author dpark
  *
@@ -18,7 +18,7 @@ public class MyKryoGenerator {
 		int typeId = 1200;
 		String srcDir = "src/main/java";
 
-		KryoGenerator generator = new KryoGenerator(packageName, jarPath, typeId, srcDir);
+		HazelcastKryoGenerator generator = new HazelcastKryoGenerator(packageName, jarPath, typeId, srcDir);
 		generator.generateKryoSerializer();
 	}
 }

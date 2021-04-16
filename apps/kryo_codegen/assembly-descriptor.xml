@@ -28,7 +28,7 @@
                                 <include>objenesis-*</include>
 
                                 <include>asm-*</include>
-                                <include>avro-*</include>
+                                <include>avro-${avro.version}*</include>
                                 <include>commons-compress-*</include>
                                 <include>jackson-*</include>
                                 <include>minlog-*</include>
