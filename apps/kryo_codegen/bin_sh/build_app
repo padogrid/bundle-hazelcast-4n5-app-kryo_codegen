@@ -105,7 +105,7 @@ cp -r src_provided/* src/
 mvn package
 
 # Place the generated binaary and dependencies in the workspace's plugins directory
-cp lib/* $PADOGRID_WORKSPACE/plugins/
+tar -C $PADOGRID_WORKSPACE/plugins/ -xzf target/assembly/app-kryo-codegen-hazelcast-4-1.0.0.tar.gz
 
 popd > /dev/null
 
