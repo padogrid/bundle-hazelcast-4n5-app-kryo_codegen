@@ -104,7 +104,10 @@ mvn package
 cp -r src_provided/* src/
 mvn package
 
-# Place the generated binaary and dependencies in the workspace's plugins directory
+# Remove avro-tools-*.jar which conflicts with Hazelcast library
+rm lib/avro-tools*.jar
+
+# Place the generated binary and dependencies in the workspace's plugins directory
 tar -C $PADOGRID_WORKSPACE/plugins/ -xzf target/assembly/app-kryo-codegen-hazelcast-4-1.0.0.tar.gz
 
 popd > /dev/null

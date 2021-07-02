@@ -299,6 +299,9 @@ tar -C $PADOGRID_WORKSPACE/plugins/ -xzf target/assembly/app-kryo-codegen-hazelc
 Place the serialization information in the current cluster's Hazelcast configuration file.
 
 ```bash
+# Create Hazelcast cluster
+create_cluster -cluster myhz
+
 # Switch into your Hazelcast cluster and edit hazelcast.xml
 switch_cluster myhz
 vi etc/hazelcast.xml
@@ -331,8 +334,8 @@ start_cluster
 The scripts for running the client code are in the `bin_sh` directory. The ingestion scripts use the `etc/hazelcast-client.xml` file which already includes the `KyroSerializer` class. Let's execute them.
 
 ```bash
-# Ingest Customer and Order data
-cd bin_sh
+# Change dir to the app's bin_sh to run 'ingest' scripts
+cd_app kryo_codegen/bin_sh
 
 # Ingest data into the 'nw/customers' map.
 ./ingest_customers
@@ -356,6 +359,8 @@ Data Class: org.hazelcast.demo.nw.data.avro.Order
   Ingested: 100
        Map: nw/orders
 ```
+
+If you dont' see the outputs shown above then check the log files in the `log/` directory.
 
 ### 12. Read ingested data.
 

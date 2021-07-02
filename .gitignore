@@ -15,6 +15,9 @@ buildNumber.properties
 .project
 .settings
 
+# Jupyter
+.ipynb*
+
 # PadoGrid
 .addonenv.sh
 initenv.sh
@@ -27,6 +30,8 @@ k8s
 lib
 plugins
 pods
+.workspace
+.cluster
 
 # App specifics
 archive
