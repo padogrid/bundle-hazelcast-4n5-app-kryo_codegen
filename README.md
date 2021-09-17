@@ -5,7 +5,7 @@ This bundle provides step-by-step instructions for generating and deploying Avro
 ## Installing Bundle
 
 ```bash
-install_bundle -download bundle-hazelcast-4-app-kryo_codegen
+install_bundle -download bundle-hazelcast-4n5-app-kryo_codegen
 ```
 
 ## Use Case
@@ -57,6 +57,8 @@ public class Order extends org.hazelcast.demo.nw.data.avro.generated.__Order {
 If you want to quickly test the bundle, you can execute the following and jump to [Step 9](#9-configure-hazelcast-configuration-file-hazelcastxml-with-the-kryoserializer-class). The `build_app` carries out the setps 1 to 8 in sequence. It is recommended, however, that you go through the entire steps to get familiar with the code generation and deployment process.
 
 ```bash
+make_cluster -product hazelcast -cluster myhz
+switch_cluster myhz
 cd_app kryo_codegen; cd bin_sh
 ./build_app
 ```
@@ -300,7 +302,7 @@ Place the serialization information in the current cluster's Hazelcast configura
 
 ```bash
 # Create Hazelcast cluster
-create_cluster -cluster myhz
+make_cluster -product hazelcast -cluster myhz
 
 # Switch into your Hazelcast cluster and edit hazelcast.xml
 switch_cluster myhz
