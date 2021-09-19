@@ -57,12 +57,12 @@
 			<!-- bundle distribution -->
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.5.5</version>
+				<version>3.3.0</version>
 				<executions>
 					<execution>
-						<id>padogrid-bundle</id>
+						<id>bundle-assembly</id>
 						<goals>
-							<goal>attached</goal>
+							<goal>single</goal>
 						</goals>
 						<phase>package</phase>
 						<configuration>
