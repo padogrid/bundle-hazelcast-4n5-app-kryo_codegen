@@ -32,6 +32,7 @@ plugins
 pods
 .workspace
 .cluster
+workspace.code-workspace
 
 # App specifics
 archive
