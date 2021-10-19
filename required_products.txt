@@ -1,0 +1,23 @@
+#
+# PadoGrid bundle environment. This bundle requires the product versions listed below.
+# Note that the required product versions listed in the file override the product
+# versions that make up the bundle name.
+#
+# Specify ony the version number parts that are required. For example, if the bundle
+# can be run on all versions of Hazelcast 4.x.x, then specify 4 only. If it applies to
+# 4.1.x, then 4.1. If the bundle applies to multiple specific versions, then list them
+# comma-separated. For example, the following applies to Hazelcast 3.12, 4.1.1, and 4.2.
+#
+# hazelast=3.12,4.1.1,4.2
+#
+
+hazelcast=4,5
+#hazelcast-enterprise=
+#jet=
+#jet-enterprise=
+#gemfire=
+#geode=
+#snappydata=
+#spark=
+#coherence=
+#pado=
