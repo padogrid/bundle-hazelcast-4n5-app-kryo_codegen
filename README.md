@@ -436,7 +436,7 @@ public class MyKryoGenerator {
 }
 ```
 
-## Tearing Down
+## Tearingdown
 
 ```bash
 stop_cluster
