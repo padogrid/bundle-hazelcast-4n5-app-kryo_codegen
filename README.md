@@ -63,7 +63,7 @@ cd_app kryo_codegen; cd bin_sh
 ./build_app
 ```
 
-If you have a schema registry with Debezium running, then you can use the `-registry` option to retrieve the schemas instead. Please see the usage by running the following.
+If you have a schema registry running, then you can use the `-registry` option to retrieve the schemas instead. Please see the usage by running the following.
 
 ```bash
 ./build_app -?
