@@ -78,7 +78,7 @@ If you have a schema registry running, then you can use the `-registry` option t
 ./build_app -?
 ```
 
-### 1. Place Avro schema files in the `src/main/resources` directory.
+### 1. Place Avro schema files in the `src/main/resources` directory
 
 This bundle includes the following example schema files.
 
@@ -102,7 +102,7 @@ src/main
 
 Note that we do not have any Java code in the source directory. We start with a set of only Avro schema files and end up with all the necessary Java code for ingesting data into Hazelcast. The following shows the `customer.asvc` schema file contents.
 
-**`customer.asvc`:**
+**`order.asvc`:**
 
 ```json
 {
@@ -129,13 +129,13 @@ Note that we do not have any Java code in the source directory. We start with a 
 
 ```
 
-### 2. Generate Avro classes using the Avro schema files.
+### 2. Generate Avro classes using the Avro schema files
 
 ```bash
 mvn package
 ```
 
-The above Maven command generates the corresponding Java classes as follows.
+The above Maven command generates the corresponding Java classes as follows
 
 ```console
 src/main
@@ -158,7 +158,7 @@ src/main
     └── order.avsc
 ```
 
-### 3. Generate Avro wrapper classes. 
+### 3. Generate Avro wrapper classes
 
 Run the PadoGrid's `t_generate_wrappers` command to generate the wrapper classes that extend the generated Avro classes. You can use the Avro classes that were generated in the previous setp as they are but it is recommended that you generate the wrapper classes so that you can override the Avro class methods as needed. Let's generate wrapper classes by executing the following:
 
@@ -197,7 +197,7 @@ src/main
     └── order.avsc
 ```
 
-### 4. Compile the wrapper classes and create a jar file.
+### 4. Compile the wrapper classes and create a jar file
 
 The generated wrapper classes need to be compiled and packaged into a jar file. Run Maven again to generate the `lib/app-kryo-codegen-hazelcast-4-1.0.0.jar` file that includes the wrapper classes.
 
@@ -205,7 +205,7 @@ The generated wrapper classes need to be compiled and packaged into a jar file. 
 mvn package
 ```
 
-### 5. Generate KryoSerializer for the generated wrapper classes.
+### 5. Generate KryoSerializer for the generated wrapper classes
 
 With the wrapper classes in the jar file, we can now generate the `KyroSerializer` class that properly registers all the wrapper classes in Hazelcast. Execute the following command to generate `KryoSerializer`.
 
@@ -272,7 +272,7 @@ src/main
     └── order.avsc
 ```
 
-### 6. Compile the generated `KryoSerializer`.
+### 6. Compile the generated `KryoSerializer`
 
 Once again, repackage the `lib/app-kryo-codegen-hazelcast-4-1.0.0.jar` file by running Maven. At this time, the jar file also includes the generated classes including `KryoSerializer` which we need to register with Hazelcast.
 
@@ -280,7 +280,7 @@ Once again, repackage the `lib/app-kryo-codegen-hazelcast-4-1.0.0.jar` file by r
 mvn package
 ```
 
-### 7. Build client apps.
+### 7. Build client apps
 
 This bundle includes data ingestion clients that use the generated wrapper classes to ingest data into Hazelcast. The source code is located in the `src_provided` directory. Let's copy it to the `src` directory and rebuild the jar file.
 
@@ -294,7 +294,7 @@ mvn package
 
 :information_source: Take a look at `src_provided/org/apache/geode/demo/nw/data/avro/Order.java`. It extends the Avro generated class `__Order` to include Date objects.
 
-### 8. Build and deploy a distribution tarball.
+### 8. Build and deploy a distribution tarball
 
 The  `lib/app-kryo-codegen-hazelcast-4-1.0.0.jar` is now ready to be deployed to the Hazelcast cluster. Since we are using Kryo and Avro, we also need to deploy their jar files along with all the dependencies. The previous Maven build step also generated a tarball, `app-kryo-codegen-hazelcast-4-1.0.0.tar.gz`, that contains all the jar files. We need to untar the tarball in the workspace's `plugins` directory so that the jar files can be picked up by all the apps and clusters running in the same workspace.
 
@@ -305,7 +305,7 @@ tar -C $PADOGRID_WORKSPACE/plugins/ -xzf target/assembly/app-kryo-codegen-hazelc
 
 :information_source: Note that you would also need to deploy the tarball to external apps that connect to your Hazelcast cluster. For example, to deploy it to Kafka Connect, untar it in the connector's plugin directory.
 
-### 9. Configure Hazelcast configuration file (`hazelcast.xml`) with the `KryoSerializer` class.
+### 9. Configure Hazelcast configuration file (`hazelcast.xml`) with the `KryoSerializer` class
 
 Place the serialization information in the current cluster's Hazelcast configuration file.
 
@@ -334,13 +334,13 @@ Copy the serializer configuration output from Step 5 and enter it in the `hazelc
 </hazelcast>
 ```
 
-### 10. Start your cluster.
+### 10. Start your cluster
 
 ```bash
 start_cluster
 ```
 
-### 11. Ingest data.
+### 11. Ingest data
 
 The scripts for running the client code are in the `bin_sh` directory. The ingestion scripts use the `etc/hazelcast-client.xml` file which already includes the `KyroSerializer` class. Let's execute them.
 
@@ -373,7 +373,7 @@ Data Class: org.hazelcast.demo.nw.data.avro.Order
 
 If you dont' see the outputs shown above then check the log files in the `log/` directory.
 
-### 12. Read ingested data.
+### 12. Read ingested data
 
 You can use the `read_cache` script to read the ingested data as follows. We have ingested data into the 'nw/customers' and 'nw/orders' maps.
 
