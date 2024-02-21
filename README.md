@@ -65,7 +65,7 @@ First, make sure you are switched into a Hazelcast cluster. You can create the d
 
 ```bash
 # Hazelcast cluster - creates 'myhz' cluster
-make_cluster -product hazelcast
+create_cluster -product hazelcast
 switch_cluster myhz
 ```
 
@@ -315,7 +315,7 @@ Place the serialization information in the current cluster's Hazelcast configura
 
 ```bash
 # Create a Hazelcast cluster if you have not done so already
-make_cluster -product hazelcast -cluster myhz
+create_cluster -product hazelcast -cluster myhz
 
 # Switch into your Hazelcast cluster and edit hazelcast.xml
 switch_cluster myhz
