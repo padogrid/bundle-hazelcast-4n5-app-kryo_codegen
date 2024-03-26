@@ -3,7 +3,7 @@
 ---
 
 <!-- Platforms -->
-[![Host OS](https://github.com/padogrid/padogrid/wiki/images/padogrid-host-os.drawio.svg)](https://github.com/padogrid/padogrid/wiki/Platform-Host-OS) [![VM](https://github.com/padogrid/padogrid/wiki/images/padogrid-vm.drawio.svg)](https://github.com/padogrid/padogrid/wiki/Platform-VM) [![Docker](https://github.com/padogrid/padogrid/wiki/images/padogrid-docker.drawio.svg)](https://github.com/padogrid/padogrid/wiki/Platform-Docker) [![Kubernetes](https://github.com/padogrid/padogrid/wiki/images/padogrid-kubernetes.drawio.svg)](https://github.com/padogrid/padogrid/wiki/Platform-Kubernetes)
+[![PadoGrid 1.x](https://github.com/padogrid/padogrid/wiki/images/padogrid-padogrid-1.x.drawio.svg)](https://github.com/padogrid/padogrid/wiki/Platform-PadoGrid-1.x) [![Host OS](https://github.com/padogrid/padogrid/wiki/images/padogrid-host-os.drawio.svg)](https://github.com/padogrid/padogrid/wiki/Platform-Host-OS) [![VM](https://github.com/padogrid/padogrid/wiki/images/padogrid-vm.drawio.svg)](https://github.com/padogrid/padogrid/wiki/Platform-VM) [![Docker](https://github.com/padogrid/padogrid/wiki/images/padogrid-docker.drawio.svg)](https://github.com/padogrid/padogrid/wiki/Platform-Docker) [![Kubernetes](https://github.com/padogrid/padogrid/wiki/images/padogrid-kubernetes.drawio.svg)](https://github.com/padogrid/padogrid/wiki/Platform-Kubernetes)
 
 # Hazelcast Kryo/Avro Code Generator
 
@@ -56,7 +56,6 @@ public class Order extends org.hazelcast.demo.nw.data.avro.generated.__Order {
 
 ## Required Software
 
-- PadoGrid 0.9.5-SNAPSHOT+ (02/16/2021)
 - Maven 3.x
 
 ## Runng This Bundle
@@ -72,7 +71,7 @@ switch_cluster myhz
 If you want to quickly test the bundle, you can execute the following and jump to [Step 9](#9-configure-hazelcast-configuration-file-hazelcastxml-with-the-kryoserializer-class). The `build_app` carries out the setps 1 to 8 in sequence. It is recommended, however, that you go through the entire steps to get familiar with the code generation and deployment process.
 
 ```bash
-cd_app kryo_codegen; cd bin_sh
+cd_app kryo_codegen/bin_sh
 ./build_app
 ```
 
@@ -106,40 +105,50 @@ src/main
 
 Note that we do not have any Java code in the source directory. We start with a set of only Avro schema files and end up with all the necessary Java code for ingesting data into Hazelcast. The following shows the `customer.asvc` schema file contents.
 
-**`order.asvc`:**
+```bash
+cat src/main/resources/order.avsc
+```
+
+**Output:**
 
 ```json
 {
-"namespace": "org.hazelcast.demo.nw.data.avro.generated",
+ "namespace": "org.hazelcast.demo.nw.data.avro.generated",
  "type": "record",
  "name": "__Order",
  "fields": [
      {"name": "orderId", "type": "string"},
      {"name": "customerId", "type": "string"},
      {"name": "employeeId", "type": "string"},
-     {"name": "orderDateLong", "type": "long", "logicalType": "timestamp-millis"},
-     {"name": "requiredDateLong", "type": "long", "logicalType": "timestamp-millis"},
-     {"name": "shippedDateLong", "type": "long", "logicalType": "timestamp-millis"},
-     {"name": "shipVia", "type": "string"},
      {"name": "freight", "type": "double"},
-     {"name": "shipName", "type": "string"},
+     {"name": "orderDate", "type": "long", "logicalType": "timestamp-millis"},
+     {"name": "requiredDate", "type": "long", "logicalType": "timestamp-millis"},
      {"name": "shipAddress", "type": "string"},
      {"name": "shipCity", "type": "string"},
-     {"name": "shipRegion", "type": ["string", "null"]},
+     {"name": "shipCountry", "type": "string"},
+     {"name": "shipName", "type": "string"},
      {"name": "shipPostalCode", "type": "string"},
-     {"name": "shipCountry", "type": "string"}
+     {"name": "shipRegion", "type": ["string", "null"]},
+     {"name": "shipVia", "type": "string"},
+     {"name": "shippedDate", "type": "long", "logicalType": "timestamp-millis"}
  ]
 }
-
 ```
 
 ### 2. Generate Avro classes using the Avro schema files
 
 ```bash
+cd_app kryo_codegen
 mvn package
 ```
 
-The above Maven command generates the corresponding Java classes as follows
+The above Maven command generates the corresponding Java classes as follows.
+
+```bash
+tree src/main
+```
+
+**Output:**
 
 ```console
 src/main
@@ -175,6 +184,12 @@ t_generate_wrappers -sp org.hazelcast.demo.nw.data.avro.generated \
 ```
 
 The above command creates the wrapper classes in the `org.hazelcast.demo.nw.data.avro` package as follows.
+
+```bash
+tree src/main
+```
+
+**Output:**
 
 ```console
 src/main
@@ -249,6 +264,11 @@ To register KryoSerializer, add the following lines in the Hazelcast configurati
 
 The source directory now has `KryoSerializer.java` as shown below.
 
+```bash
+tree src/main
+```
+
+**Output:**
 
 ```console
 src/main
